@@ -18,7 +18,7 @@ if (grepl("Linux stats3", system("uname -a", intern=T))) {
       message("\nLibrary paths:")
       print(.libPaths())
     }
-    rm(lib.dir)
+    rm(lib.dir, i, j, k, x)
   }
 } else {
   stop("For this session it is preferred if you use RStudio Server Pro at https://stats3.sgul.ac.uk/rstudio/")
@@ -29,6 +29,3 @@ library(rmarkdown)
 message("\nSession info:")
 gsub("^[ \t]+|\\{.*\\}|\\\\[a-zA-Z]+", "", utils::toLatex(utils::sessionInfo(), locale = FALSE))
 
-
-.libPaths(x)
-.libPaths()
