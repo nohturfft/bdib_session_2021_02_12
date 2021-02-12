@@ -15,7 +15,7 @@ if (grepl("Linux stats3", system("uname -a", intern=T))) {
       j <- grep("x86_64-pc-linux-gnu-library", .libPaths())
       k <- grep("lib64/R/library", .libPaths())
       x <- .libPaths()[c(i,j,k)]
-      .libPaths(x)
+      .libPaths(x) # set paths in new order
       message("\nLibrary paths:")
       print(.libPaths())
     }
