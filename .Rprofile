@@ -11,6 +11,10 @@ if (grepl("Linux stats3", system("uname -a", intern=T))) {
       message(paste("Library folder not found (.Rprofile)"))
     } else {
       .libPaths(c(lib.dir, .libPaths()))
+      i <- grep("BDiB_2020-21", .libPaths())
+      j <- grep("x86_64-pc-linux-gnu-library", .libPaths())
+      k <- grep("lib64/R/library", .libPaths())
+      x <- .libPaths()[c(i,j,k)]
       message("\nLibrary paths:")
       print(.libPaths())
     }
@@ -25,3 +29,6 @@ library(rmarkdown)
 message("\nSession info:")
 gsub("^[ \t]+|\\{.*\\}|\\\\[a-zA-Z]+", "", utils::toLatex(utils::sessionInfo(), locale = FALSE))
 
+
+.libPaths(x)
+.libPaths()
