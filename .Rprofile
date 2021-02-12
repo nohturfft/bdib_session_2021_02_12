@@ -18,8 +18,9 @@ if (grepl("Linux stats3", system("uname -a", intern=T))) {
       .libPaths(x) # set paths in new order
       message("\nLibrary paths:")
       print(.libPaths())
+      rm(i, j, k, x)
     }
-    rm(lib.dir, i, j, k, x)
+    rm(lib.dir)
   }
 } else {
   stop("For this session it is preferred if you use RStudio Server Pro at https://stats3.sgul.ac.uk/rstudio/")
