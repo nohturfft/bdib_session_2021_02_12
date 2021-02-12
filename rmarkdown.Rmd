@@ -1,0 +1,81 @@
+---
+title: "R Markdown"
+subtitle: "BDiB Session 12-February-2021"
+output: html_notebook
+---
+
+<!--style>
+h1 {background: brown;color: white;padding-left: 7px;}
+h2 {background: grey;color: white;padding-left: 7px;}
+h3 {color: brown;}
+</style-->
+
+## Introduction  
+### Rmarkdown scripts  
+The current Rmd file is an ***rmarkdown*** script. Rmarkdown scripts are just text files that contain at least three types of content:  
+
+1. At the top of each rmarkdown script is the so-called ***YAML header***, which is flanked by three dashes ("---") and contains document information (e.g. title, subtitle, author, date) and instructions on how the document should be processed.  
+2. R code is typed in so-called ***code chunks***. Code chunks are always flanked by three backticks ("```"); in the first line of a chunk the backticks are followed by "{r}". Other information and instructions can be added between the curly brackets (chunk title and chunk options).  
+3. Any other text outside the YAML header and the code chunks is treated as (comment) text and not as code. The are simple text additions that will cause the text to be formatted. For example, surrounding text with underlines will make it appear _italics_, two asterisks make the text **bold**. There a are a number of other such markdown formatting rules. See [this website](https://rmarkdown.rstudio.com/authoring_basics.html) for details.  
+
+In addition, if the rmarkdown file is supposed to generate html output (a web page), you can include various html elements (see below).  
+
+### Benefits of rmarkdown  
+There are a number of important advantages of using rmarkdown over standard R scripts:  
+
+a. The output genreated by the code chunks (including graphics) appears within the script, rather than in the console window.  
+b. The entire output of an rmarkdown script can be formatted to produce reports in various formats: e.g. html file (web page), Word document, Powerpoint presentation, PDF file, and more.  
+c. RStudio now provides a _Visual Markdown Editor_ (click the compass symbol, top-right above the script window)  
+
+### R Notebooks  
+The current script will be rendered as an _R Notebook_, which has been defined in the YAML header where it says `output: html_notebook`. If you press the Preview button an html file will be generated that ends in `.nb.html`. That file can be opened in any webbrowser. The html file also stores the original Rmd code file, so you can open it in RStudio, which will extract the original script that was used to generate the nb.html file. R notebooks are thus very useful for genrating attractive, interactive reports that are easy to share.  
+
+If you are familiar with html (the markdown code used for web pages) it's easy to customize the format of the html files, e.g. by including an html `<style>` block at the top. Other html elements can be used - for example to make <span style="color:red">text red</span>. 
+
+### Rmarkdown references  
+
+* [Rmarkdown site at RStudio](https://rmarkdown.rstudio.com/)  
+* [Rmarkdown cheat sheet](https://rmarkdown.rstudio.com/lesson-15.html)  
+* Online book: [Rmarkdown - The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)  
+* [R Notebooks](https://rmarkdown.rstudio.com/lesson-10.html)  
+* [R Markdown: The Definitive Guide - 3.2 Notebook](https://bookdown.org/yihui/rmarkdown/notebook.html)
+
+## Some example code chunks  
+
+### Generate an interactive table  
+```{r message=FALSE}
+# Check that DT package is installed:
+# if (!require("DT")) install.packages("DT")
+DT::datatable(mtcars)
+```
+
+### Generate a graphic  
+```{r message=FALSE}
+# Code is from persp() help file:
+op <- par(bg = "white")
+par(bg = "white")
+x <- seq(-1.95, 1.95, length = 30)
+y <- seq(-1.95, 1.95, length = 35)
+z <- outer(x, y, function(a, b) a*b^2)
+nrz <- nrow(z)
+ncz <- ncol(z)
+jet.colors <- colorRampPalette( c("blue", "green") )
+nbcol <- 100
+color <- jet.colors(nbcol)
+zfacet <- z[-1, -1] + z[-1, -ncz] + z[-nrz, -1] + z[-nrz, -ncz]
+facetcol <- cut(zfacet, nbcol)
+persp(x, y, z, col = color[facetcol], phi = 30, theta = -30)
+par(op)
+rm(op, x, y, z, nrz, ncz, jet.colors, nbcol, color, zfacet, facetcol)
+```
+
+### Interactive graphic  
+```{r plotly graphic, warning=FALSE, message=FALSE}
+# if (!require("plotly")) install.packages("plotly")
+library(plotly)
+
+plot_ly(economics, x = ~date, color = I("black")) %>%
+ add_lines(y = ~uempmed) %>%
+ add_lines(y = ~psavert, color = I("red"))
+```
+
